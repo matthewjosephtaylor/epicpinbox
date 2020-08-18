@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+usage () {
+  echo -e "Unremarkable `basename $0`"
+  echo -e "Usage: `basename $0` ipfs-server-name <ipfs commands....>"
+  exit 1
+}
+
+if [ $# -eq 0 ]; then
+  usage
+fi
+
+declare -r IPFS_SERVER_NAME=$1
+
+docker exec ${IPFS_SERVER_NAME} ipfs ${@:2}
