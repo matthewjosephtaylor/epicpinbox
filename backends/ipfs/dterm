@@ -3,7 +3,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 usage () {
-  echo -e "Unremarkable `basename $0`"
+  echo -e "Shell into IPFS Docker Container"
   echo -e "Usage: `basename $0` <server name>"
   exit 1
 }

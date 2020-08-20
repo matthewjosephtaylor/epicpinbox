@@ -3,8 +3,8 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 usage () {
-  echo -e "IPFS Server Start `basename $0`"
-  echo -e "Usage: `basename $0` <storage-path>"
+  echo -e "IPFS Server Start"
+  echo -e "Usage: `basename $0` <server-name>"
   exit 1
 }
 
@@ -13,6 +13,7 @@ if [ $# -ne 1 ]; then
 fi
 
 declare -r IPFS_DOCKER_TAG="latest"
+declare -r IPFS_DOCKER_IMAGE="ipfs/pinbox"
 declare -r IPFS_SWARM_PORT="4001"
 declare -r IPFS_WS_PORT="127.0.0.1:4003"
 declare -r IPFS_API_PORT="127.0.0.1:5001"
@@ -36,4 +37,4 @@ mkdir -p "${IPFS_STAGING}"
 
 
 
-docker run -d --name "${IPFS_SERVER_NAME}" -v $IPFS_STAGING:/export:delegated -v $IPFS_DATA:/data/ipfs:delegated -p "${IPFS_SWARM_PORT}:4001" -p "${IPFS_WS_PORT}:4003" -p "${IPFS_GATEWAY_PORT}:8080" -p "${IPFS_API_PORT}:5001" "ipfs/go-ipfs:${IPFS_DOCKER_TAG}"
+docker run -d --name "${IPFS_SERVER_NAME}" -v $IPFS_STAGING:/export:delegated -v $IPFS_DATA:/data/ipfs:delegated -p "${IPFS_SWARM_PORT}:4001" -p "${IPFS_WS_PORT}:4003" -p "${IPFS_GATEWAY_PORT}:8080" -p "${IPFS_API_PORT}:5001" "${IPFS_DOCKER_IMAGE}:${IPFS_DOCKER_TAG}"
