@@ -1,0 +1,19 @@
+
+declare -r DOCKER_IMAGE="pinbox/backend"
+declare -r DOCKER_TAG="latest"
+
+declare -r SWARM_PORT="4001"
+declare -r WS_PORT="127.0.0.1:4003"
+declare -r API_PORT="127.0.0.1:5001"
+declare -r GATEWAY_PORT="127.0.0.1:9090"
+
+source "${SCRIPT_DIR}/config/server_name"
+declare -r STORAGE_BASE="${SCRIPT_DIR}/storage"
+declare -r STORAGE_PATH="${STORAGE_BASE}/${SERVER_NAME}"
+declare -r STAGING="${STORAGE_PATH}/staging"
+declare -r DATA="${STORAGE_PATH}/data"
+
+# Build config
+source "${SCRIPT_DIR}/config/app_id"
+declare -r IPFS_PROXY="https://ipfs.io"
+# declare -r IPFS_PROXY="https://cloudflare-ipfs.com"

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+usage () {
+  echo -e "Pinbox Backend Start"
+  echo -e "Usage: `basename $0`"
+  exit 1
+}
+
+if [ $# -ne 0 ]; then
+  usage
+fi
+
+source "${SCRIPT_DIR}/config/constants"
+
+echo "Starting Server : '${SERVER_NAME}'"
+
+mkdir -p "${DATA}"
+mkdir -p "${STAGING}"
+
+
+# add this to the run command for port exposure
+#  -p "${IPFS_SWARM_PORT}:4001" -p "${IPFS_WS_PORT}:4003" -p "${IPFS_GATEWAY_PORT}:8080" -p "${IPFS_API_PORT}:5001" \
+
+# Run detached
+#docker run -d --name "${SERVER_NAME}" \
+
+docker run --name "${SERVER_NAME}" \
+ -v $STAGING:/staging:delegated -v $DATA:/data/ipfs:delegated \
+"${DOCKER_IMAGE}:${DOCKER_TAG}"

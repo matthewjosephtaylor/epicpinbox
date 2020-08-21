@@ -3,7 +3,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 usage () {
-  echo -e "IPFS Server Stop"
+  echo -e "IPFS Server Switch"
   echo -e "Usage: `basename $0` <server-name>"
   exit 1
 }
@@ -12,6 +12,4 @@ if [ $# -ne 1 ]; then
   usage
 fi
 
-docker stop "${IPFS_SERVER_NAME}"
-docker rm "${IPFS_SERVER_NAME}"
-
+echo "declare -r IPFS_SERVER_NAME=$1" > "${SCRIPT_DIR}/config/server_name"

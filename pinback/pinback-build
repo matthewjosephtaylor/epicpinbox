@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+usage () {
+  echo -e "Build Dockerized Pinbox Backend"
+  echo -e "Usage: `basename $0`"
+  exit 1
+}
+
+if [ $# -ne 0 ]; then
+  usage
+fi
+
+source "${SCRIPT_DIR}/config/constants"
+declare -r DATE_TAG=$(date +%Y%m%d%H%M%S)
+
+cd "${SCRIPT_DIR}/docker"
+docker build --build-arg "APP_CID=${APP_CID}" \
+ --build-arg "APP_CHECKSUM=${APP_CHECKSUM}" \
+ --build-arg "IPFS_PROXY=${IPFS_PROXY}" \
+ -t "${DOCKER_IMAGE}:${DOCKER_TAG}" \
+ -t "${DOCKER_IMAGE}:${DATE_TAG}" .

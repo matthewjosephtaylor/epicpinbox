@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+usage () {
+  echo -e "IPFS Server Switch"
+  echo -e "Usage: `basename $0` <server-name>"
+  exit 1
+}
+
+if [ $# -ne 1 ]; then
+  usage
+fi
+
+IFS="#"
+read -a app_id_arr <<< "$1"
+
+echo "declare -r APP_CID=${app_id_arr[0]}" > "${SCRIPT_DIR}/config/app_id"
+echo "declare -r APP_CHECKSUM=${app_id_arr[1]}" >> "${SCRIPT_DIR}/config/app_id"
+
+echo "Switched app to CID / CHECKSUM: ${app_id_arr[0]} / ${app_id_arr[1]}"
