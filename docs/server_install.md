@@ -52,12 +52,16 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 add-apt-repository \
  "deb [arch=arm64] https://download.docker.com/linux/ubuntu \
- \$(lsb_release -cs) \
+ $(lsb_release -cs) \
  stable"
 
 apt-get update
 
 apt-get install docker-ce docker-ce-cli containerd.io
+
+groupadd docker
+
+docker run hello-world
 
 ```
 
@@ -66,7 +70,6 @@ apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 adduser pinbox
-groupadd docker
 usermod -aG docker pinbox
 
 ```
@@ -74,9 +77,33 @@ usermod -aG docker pinbox
 - ZFS
 
 ```
-
 apt-get install zfsutils-linux
 
-zpool create -m none -f tank /dev/disk/by-id/usb-
+zpool create -m none tank /dev/disk/by-id/usb-...
+
+zfs set compression=lz4 atime=off tank
+
+zfs create -o mountpoint=/pinbox tank/pinbox
+
+chown pinbox:pinbox /pinbox/
+```
+
+- IPFS
+
+```
+sudo su - pinbox
+cd /pinbox
+git clone https://github.com/matthewjosephtaylor/easy_ipfs.git
+cd easy_ipfs
+./ipfs-build
+./ipfs-init
+./ipfs-start -ep
+
+# Optional depending on setup (will require a server restart)
+./ipfs-enable-api
+./ipfs-enable-cors
+./ipfs-enable-gateway
+./ipfs-enable-unset-bootstrap
+./ipfs-set-storage-size 3.5TB
 
 ```
