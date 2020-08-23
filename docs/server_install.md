@@ -26,19 +26,20 @@
 ## Ubuntu OS Setup
 
 - Docker from https://docs.docker.com/engine/install/ubuntu/
-- Set hostname
+
+### Hostname
 
 ```
 hostnamectl set-hostname <my-hostname>
 ```
 
-- mDNS (avahi)
+### mDNS (avahi)
 
 ```
 apt-get install avahi-daemon
 ```
 
-- Docker
+### Docker
 
 ```
 apt-get install \
@@ -59,36 +60,27 @@ apt-get update
 
 apt-get install docker-ce docker-ce-cli containerd.io
 
-groupadd docker
-
 docker run hello-world
-
 ```
 
-- User/Group setup
-
-```
-
-adduser pinbox
-usermod -aG docker pinbox
-
-```
-
-- ZFS
+### ZFS
 
 ```
 apt-get install zfsutils-linux
-
 zpool create -m none tank /dev/disk/by-id/usb-...
-
 zfs set compression=lz4 atime=off tank
-
 zfs create -o mountpoint=/pinbox tank/pinbox
+```
 
+### Pinbox User Setup
+
+```
+adduser pinbox
+usermod -aG docker pinbox
 chown pinbox:pinbox /pinbox/
 ```
 
-- IPFS
+### IPFS
 
 ```
 sudo su - pinbox
@@ -99,7 +91,7 @@ cd easy_ipfs
 ./ipfs-init
 ./ipfs-start -ep
 
-# Optional depending on setup (will require a server restart)
+# Optional depending on setup (will require a container restart)
 ./ipfs-enable-api
 ./ipfs-enable-cors
 ./ipfs-enable-gateway
